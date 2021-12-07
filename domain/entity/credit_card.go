@@ -6,21 +6,21 @@ import (
 	"time"
 )
 
-type CreditCard struct {
-	number          string
-	name            string
-	expirationMonth int
-	expirationYear  int
-	cvv             int
+type CartaoCredito struct {
+	numero       string
+	nome         string
+	mesExpiracao int
+	anoExpiracao int
+	cvv          int
 }
 
-func NewCreditCard(number string, name string, expirationMonth int, expirationYear int, expirationCvv int) (*CreditCard, error) {
-	cc := &CreditCard{
-		number:          number,
-		name:            name,
-		expirationMonth: expirationMonth,
-		expirationYear:  expirationYear,
-		cvv:             expirationCvv,
+func NewCartaoCredito(numero string, nome string, mesExpiracao int, anoExpiracao int, cvv int) (*CartaoCredito, error) {
+	cc := &CartaoCredito{
+		numero:       numero,
+		nome:         nome,
+		mesExpiracao: mesExpiracao,
+		anoExpiracao: anoExpiracao,
+		cvv:          cvv,
 	}
 
 	err := cc.IsValid()
@@ -30,40 +30,40 @@ func NewCreditCard(number string, name string, expirationMonth int, expirationYe
 	return cc, nil
 }
 
-func (c *CreditCard) IsValid() error {
-	err := c.validateNumber()
+func (c *CartaoCredito) IsValid() error {
+	err := c.validarNumero()
 	if err != nil {
 		return err
 	}
-	err = c.validateMonth()
+	err = c.validarMes()
 	if err != nil {
 		return err
 	}
-	err = c.validateYear()
+	err = c.validarAno()
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (c *CreditCard) validateNumber() error {
+func (c *CartaoCredito) validarNumero() error {
 	re := regexp.MustCompile(`^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$`)
-	if !re.MatchString(c.number) {
-		return errors.New("Invalid credit card number")
+	if !re.MatchString(c.numero) {
+		return errors.New("Número de cartão inválido")
 	}
 	return nil
 }
 
-func (c *CreditCard) validateMonth() error {
-	if c.expirationMonth > 0 && c.expirationMonth < 13 {
+func (c *CartaoCredito) validarMes() error {
+	if c.mesExpiracao > 0 && c.mesExpiracao < 13 {
 		return nil
 	}
-	return errors.New("Invalid expiration month")
+	return errors.New("Mês de expiração inválido")
 }
 
-func (c *CreditCard) validateYear() error {
-	if c.expirationYear >= time.Now().Year() {
+func (c *CartaoCredito) validarAno() error {
+	if c.anoExpiracao >= time.Now().Year() {
 		return nil
 	}
-	return errors.New("Invalid expiration year")
+	return errors.New("Ano de expiração inválido")
 }

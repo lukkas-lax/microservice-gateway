@@ -6,30 +6,31 @@ import (
 	"time"
 )
 
-func TestCreditCardNumber(t *testing.T) {
-	_, err := NewCreditCard("5000000000000000", "Lucas Alves Xavier", 12, 2025, 123)
-	assert.Equal(t, "Invalid credit card number", err.Error())
+func TestNumeroCartaoCredito(t *testing.T) {
 
-	_, err = NewCreditCard("5318303538835699", "Lucas Alves Xavier", 12, 2025, 123)
+	_, err := NewCartaoCredito("5000000000000000", "Lucas Alves Xavier", 12, 2025, 123)
+	assert.Equal(t, "Número de cartão inválido", err.Error())
+
+	_, err = NewCartaoCredito("5318303538835699", "Lucas Alves Xavier", 12, 2025, 123)
 	assert.Nil(t, err)
 }
 
-func TestCreditCardExpirationMonth(t *testing.T) {
+func TestMesExpiracao(t *testing.T) {
 
-	_, err := NewCreditCard("5318303538835699", "Lucas Alves Xavier", 13, 2025, 123)
-	assert.Equal(t, "Invalid expiration month", err.Error())
+	_, err := NewCartaoCredito("5318303538835699", "Lucas Alves Xavier", 13, 2025, 123)
+	assert.Equal(t, "Mês de expiração inválido", err.Error())
 
-	_, err = NewCreditCard("5318303538835699", "Lucas Alves Xavier", 0, 2025, 123)
-	assert.Equal(t, "Invalid expiration month", err.Error())
+	_, err = NewCartaoCredito("5318303538835699", "Lucas Alves Xavier", 0, 2025, 123)
+	assert.Equal(t, "Mês de expiração inválido", err.Error())
 
-	_, err = NewCreditCard("5318303538835699", "Lucas Alves Xavier", 10, 2025, 123)
+	_, err = NewCartaoCredito("5318303538835699", "Lucas Alves Xavier", 10, 2025, 123)
 	assert.Nil(t, err)
 }
 
-func TestCreditCardExpirationYear(t *testing.T) {
+func TestAnoExpiracao(t *testing.T) {
 
-	lastYear := time.Now().AddDate(-1, 0, 0)
-	_, err := NewCreditCard("5318303538835699", "Lucas Alves Xavier", 9, lastYear.Year(), 123)
-	assert.Equal(t, "Invalid expiration year", err.Error())
+	anoAnterior := time.Now().AddDate(-1, 0, 0)
+	_, err := NewCartaoCredito("5318303538835699", "Lucas Alves Xavier", 9, anoAnterior.Year(), 123)
+	assert.Equal(t, "Ano de expiração inválido", err.Error())
 
 }
