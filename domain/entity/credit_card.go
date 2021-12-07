@@ -14,7 +14,7 @@ type CartaoCredito struct {
 	cvv          int
 }
 
-func NewCartaoCredito(numero string, nome string, mesExpiracao int, anoExpiracao int, cvv int) (*CartaoCredito, error) {
+func NovoCartaoCredito(numero string, nome string, mesExpiracao int, anoExpiracao int, cvv int) (*CartaoCredito, error) {
 	cc := &CartaoCredito{
 		numero:       numero,
 		nome:         nome,
